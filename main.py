@@ -1,6 +1,6 @@
 import enum
 from json import JSONDecodeError
-from typing import List, Union, Any
+from typing import List, Any
 import sys
 import pypresence as drp
 import time
