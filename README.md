@@ -1,4 +1,4 @@
-##Discord Rich Presence for StarCraft II
+# Discord Rich Presence for StarCraft II
 
 ### How to use it
 1. Download the latest release
