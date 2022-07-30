@@ -1,7 +1,7 @@
 # Discord Rich Presence for StarCraft II
 
 ### How to use it
-1. Download Python 3.8+. Don't forget to checkbox ☑ "pip" and  ☑ "Add Python to environment variables"
+1. Download and install Python 3.8+. Don't forget to checkbox ☑ "pip" and  ☑ "Add Python to environment variables"
 2. Download the latest release
 3. Extract ``release.zip`` anywhere
 4. Run ``configure.bat`` to install required Python modules 

@@ -2,4 +2,5 @@
 /.idea
 /venv
 run.bat
+configure.bat
 release.zip
