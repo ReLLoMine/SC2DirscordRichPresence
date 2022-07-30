@@ -128,8 +128,10 @@ class MyPresence:
                     return f"{cls.players[0]} vs {cls.players[1]}"
                 elif len(cls.players) == 1:
                     return f"{cls.players[0]}"
+                # elif len(cls.players) == 4:
+                #     return f"{cls.players[0]} and {cls.players[1]} vs {cls.players[2]} and {cls.players[3]} "
                 else:
-                    return f"{cls.players[0]} vs {len(cls.players) - 1} others"
+                    return f"{cls.players[0]} and {len(cls.players) - 1} others"
             elif cls.game_type == cls.GameType.Coop:
                 return f"{cls.players[0]} and {cls.players[1]}"
             elif cls.game_type == cls.GameType.Campaign:
@@ -170,7 +172,7 @@ class MyPresence:
         ScreenState.TypeMid.Lobby: GameState.GameType.Custom,
         ScreenState.TypeLow.Replay: GameState.GameType.Replay
     }
-    buttons = {"buttons": [{"label": "About", "url": "https://github.com/ReLLoMine/SC2DirscordRichPresence"}]}
+    buttons = {"buttons": [{"label": "About presence", "url": "https://github.com/ReLLoMine/SC2DirscordRichPresence"}]}
     RPC: drp.Presence = None
     is_RPC_init = False
     time_period = 0.5
