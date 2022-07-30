@@ -8,7 +8,6 @@ import requests
 from pypresence import DiscordNotFound
 from requests.exceptions import ConnectionError
 
-
 class MyPresence:
     class ScreenState:
         class BaseType(enum.Enum):
@@ -171,6 +170,7 @@ class MyPresence:
         ScreenState.TypeMid.Lobby: GameState.GameType.Custom,
         ScreenState.TypeLow.Replay: GameState.GameType.Replay
     }
+    buttons = {"buttons": [{"label": "About", "url": "https://github.com/ReLLoMine/SC2DirscordRichPresence"}]}
     RPC: drp.Presence = None
     is_RPC_init = False
     time_period = 0.5
@@ -189,6 +189,7 @@ class MyPresence:
 
         except (ConnectionError, JSONDecodeError):
             print("StarCraft II client is not found")
+            cls.RPC.clear()
             time.sleep(5)
 
     @classmethod
@@ -205,6 +206,7 @@ class MyPresence:
             cls.GameState.update(game["players"])
         except (ConnectionError, JSONDecodeError):
             print("StarCraft II client is not found")
+            cls.RPC.clear()
             time.sleep(5)
 
     @classmethod
@@ -232,17 +234,23 @@ class MyPresence:
             cls.init_presence()
 
     @classmethod
+    def close_rpc(cls):
+        cls.RPC.close()
+
+    @classmethod
     def update_presence(cls):
         if cls.ScreenState.is_screen_changed():
             if cls.ScreenState.screen_type:
                 print(cls.ScreenState.get_details())
                 cls.RPC.update(**cls.main_image,
+                               **cls.buttons,
                                details=cls.ScreenState.get_details(),
                                state="In Menu")
             else:
                 print(cls.GameState.get_details())
                 print(cls.GameState.get_state())
                 cls.RPC.update(**cls.main_image,
+                               **cls.buttons,
                                **cls.small_images[cls.GameState.players[0].race],
                                details=cls.GameState.get_details(),
                                state=cls.GameState.get_state(),

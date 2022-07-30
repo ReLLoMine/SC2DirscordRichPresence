@@ -1,7 +1,7 @@
 #Discord Rich Presence for StarCraft II
 
 ### Dependencies:
-* https://github.com/discordapp/discord-rpc
+* https://github.com/qwertyquerty/pypresence
 * https://github.com/psf/requests
 
 ### Instructions for setting up the project:
