@@ -1,10 +1,12 @@
 # Discord Rich Presence for StarCraft II
 
 ### How to use it
-1. Download the latest release
-2. Extract ``release.zip`` anywhere
-3. Open ``run.bat`` with notepad and replace "UserName" with your in-game name. It's needed to display correct player.
-4. Double-click on run.bat or run it with Command Prompt
+1. Download Python 3.8+. Don't forget to checkbox ☑ "pip" and  ☑ "Add Python to environment variables"
+2. Download the latest release
+3. Extract ``release.zip`` anywhere
+4. Run ``configure.bat`` to install required Python modules 
+5. Open ``run.bat`` with notepad and replace "UserName" with your in-game name. It's needed to display correct player.
+6. Double-click on run.bat or run it with Command Prompt
 
 ### Dependencies:
 * https://github.com/qwertyquerty/pypresence
