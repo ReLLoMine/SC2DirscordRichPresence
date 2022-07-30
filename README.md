@@ -2,8 +2,9 @@
 
 ### How to use it
 1. Download the latest release
-2. Open ``run.bat`` with notepad and replace "UserName" with your in-game name. It's needed to display correct player.
-3. Double-click on run.bat or run it with Command Prompt
+2. Extract ``release.zip`` anywhere
+3. Open ``run.bat`` with notepad and replace "UserName" with your in-game name. It's needed to display correct player.
+4. Double-click on run.bat or run it with Command Prompt
 
 ### Dependencies:
 * https://github.com/qwertyquerty/pypresence
