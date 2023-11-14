@@ -1,3 +1,4 @@
+import asyncio
 import enum
 from json import JSONDecodeError
 from typing import List, Any
@@ -7,6 +8,9 @@ import time
 import requests
 from pypresence import DiscordNotFound
 from requests.exceptions import ConnectionError
+
+def error_handler(exception, future):
+    pass
 
 class MyPresence:
     class ScreenState:
@@ -173,8 +177,8 @@ class MyPresence:
         ScreenState.TypeLow.Replay: GameState.GameType.Replay
     }
     buttons = {"buttons": [{"label": "About presence", "url": "https://github.com/ReLLoMine/SC2DirscordRichPresence"}]}
-    RPC: drp.Presence = None
-    is_RPC_init = False
+    DRP: drp.Presence = None
+    is_DRP_init = False
     time_period = 0.5
 
     @classmethod
@@ -191,7 +195,7 @@ class MyPresence:
 
         except (ConnectionError, JSONDecodeError):
             print("StarCraft II client is not found")
-            cls.RPC.clear()
+            cls.DRP.clear()
             time.sleep(5)
 
     @classmethod
@@ -208,50 +212,57 @@ class MyPresence:
             cls.GameState.update(game["players"])
         except (ConnectionError, JSONDecodeError):
             print("StarCraft II client is not found")
-            cls.RPC.clear()
+            cls.DRP.clear()
             time.sleep(5)
 
     @classmethod
     def run(cls):
-        cls.init_presence()
         while cls.running:
+            cls.try_init_presence()
             cls.get_ui_state()
             cls.get_game_state()
-            cls.update_presence()
+            try:
+                cls.update_presence()
+            except drp.PipeClosed:
+                cls.is_DRP_init = False
             time.sleep(cls.time_period)
+
+    @classmethod
+    def exception_handler(cls, exception, future):
+        pass
 
     @classmethod
     def init_presence(cls):
         try:
-            cls.RPC = drp.Presence(cls.client_id)
-            cls.RPC.connect()
-            cls.is_RPC_init = True
+            cls.DRP = drp.Presence(cls.client_id, loop=asyncio.new_event_loop(), handler=error_handler)
+            cls.DRP.connect()
+            cls.is_DRP_init = True
         except DiscordNotFound:
             print("Discord client not found")
             time.sleep(5)
 
     @classmethod
     def try_init_presence(cls):
-        while not cls.is_RPC_init:
+        while not cls.is_DRP_init:
             cls.init_presence()
 
     @classmethod
     def close_rpc(cls):
-        cls.RPC.close()
+        cls.DRP.close()
 
     @classmethod
     def update_presence(cls):
         if cls.ScreenState.is_screen_changed():
             if cls.ScreenState.screen_type:
                 print(cls.ScreenState.get_details())
-                cls.RPC.update(**cls.main_image,
+                cls.DRP.update(**cls.main_image,
                                **cls.buttons,
                                details=cls.ScreenState.get_details(),
                                state="In Menu")
             else:
                 print(cls.GameState.get_details())
                 print(cls.GameState.get_state())
-                cls.RPC.update(**cls.main_image,
+                cls.DRP.update(**cls.main_image,
                                **cls.buttons,
                                **cls.small_images[cls.GameState.players[0].race],
                                details=cls.GameState.get_details(),
